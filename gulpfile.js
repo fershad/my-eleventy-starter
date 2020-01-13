@@ -1,11 +1,11 @@
 'use strict';
 
-import autoprefixer from 'gulp-autoprefixer';
-import { task, src, dest, watch, series } from 'gulp';
-import sass from 'gulp-sass';
-import uglify from 'gulp-uglify';
-import rename from 'gulp-rename';
-import cleanCSS from 'gulp-clean-css';
+var autoprefixer = require('gulp-autoprefixer');
+var gulp = require('gulp');
+var sass = require('gulp-sass');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
+var cleanCSS = require('gulp-clean-css');
 
 // Set the browser that you want to support
 const AUTOPREFIXER_BROWSERS = [
@@ -22,8 +22,8 @@ const AUTOPREFIXER_BROWSERS = [
 
   // Gulp task to minify CSS files
 
-  task('css', function () {
-    return src('./src/_includes/*.scss')
+  gulp.task('css', function () {
+    return gulp.src('./src/_includes/scss/*.scss')
       // Compile SASS files
       .pipe(sass({
         outputStyle: 'nested',
@@ -37,22 +37,22 @@ const AUTOPREFIXER_BROWSERS = [
       .pipe(cleanCSS({level: {1: {specialComments: 0}}}))
       .pipe(rename({ suffix: ".min" }))
       // Output
-      .pipe(dest('./src/_includes/css'))
+      .pipe(gulp.dest('./src/_includes/css'))
   });
 
   
 // Gulp task to minify JavaScript files
-task('js', function() {
-  return src("./src/_includes/assets/js/*.js")
+gulp.task('js', function() {
+  return gulp.src("./src/_includes/js/*.js")
     // Minify the file
     .pipe(uglify())
     .pipe(rename({ suffix: ".min" }))
     // Output
-    .pipe(dest("./src/_includes/assets/js"))
+    .pipe(gulp.dest("./src/_includes/js"))
 });
 
 
-task('watch', function() {
-  watch("./src/_includes/assets/styles/*.scss", series('css'));
-  watch("./src/_includes/assets/js/*.js", series('js'));
+gulp.task('watch', function() {
+  gulp.watch("./src/_includes/scss/*.scss", gulp.series('css'));
+  gulp.watch("./src/_includes/js/*.js", gulp.series('js'));
 });
