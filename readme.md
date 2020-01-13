@@ -2,4 +2,4 @@
 
 ## Usage
 1. Clone repo
-2. Run `npm install` to install 11ty
+2. Run `npm install` to install 11ty & gulp dependencies
